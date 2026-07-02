@@ -1,88 +1,208 @@
-# Vibe Social 🚀
+# 🚀 Vibe Social
 
-Vibe Social is a **production-ready, premium full-stack social media platform** built with Node.js, Express, MongoDB, and Vanilla JavaScript. It features glassmorphism, responsive CSS Grid layout (supporting Apple, Instagram, Threads, and X aesthetic styles), and instant real-time notifications/commenting via WebSockets (Socket.IO).
+A modern full-stack social media web application built with **HTML, CSS, JavaScript, Node.js, Express.js, MongoDB Atlas, and Socket.IO**. Vibe Social enables users to connect, share posts, interact through likes and comments, follow other users, and receive real-time notifications in a clean, responsive interface.
 
-## Features
+## 🌐 Live Demo
 
-- 👤 **Complete User Profiles**: Avatars, cover headers, bios, dynamic follower lists, counts, locations, and site links.
-- 🔐 **Robust Security**: JWT authorization stored in Secure HTTP cookies, password hashing with bcrypt, express rate limiting, helmet HTTP protection, and express validators.
-- 📝 **Vibe Composer**: Write rich text posts with hashtags (#), mentions (@), save drafts, and upload multiple images or videos.
-- 💬 **Interactive Commentary**: Nested comment threads, real-time comment synchronization, double-tap heart bursts, and toast notifications.
-- 🔍 **Unified Explore**: Unified search for posts, users, or hashtag vibes, accompanied by a list of trending vibes in the last 7 days.
-- ⚙️ **Custom settings**: Set accounts to private, change passwords, and toggle dark/light theme options with system sync.
-- 📱 **PWA & Offline capability**: Complete installability with custom service worker caching.
+**Live Application:** [(https://vibe-social-te4g.onrender.com)](https://vibe-social-te4g.onrender.com)
+
+## 📂 GitHub Repository
+
+**Repository:** https://github.com/shivapathak-code/vibe-social
 
 ---
 
-## Getting Started
+## ✨ Features
 
-### Prerequisites
-- Node.js (v16+)
-- MongoDB running locally or a MongoDB Atlas URI string.
+* 🔐 Secure JWT Authentication
+* 👤 User Registration & Login
+* 📝 Create, Edit & Delete Posts
+* 🖼️ Image Upload Support
+* ❤️ Like & Unlike Posts
+* 💬 Comment System
+* 👥 Follow & Unfollow Users
+* 🔔 Real-time Notifications using Socket.IO
+* 🔍 User Search
+* 🌙 Dark & Light Theme
+* 📱 Fully Responsive Design
+* ☁️ MongoDB Atlas Cloud Database
+* 🚀 Production Deployment on Render
 
-### 1. Installation
-Install the project dependencies:
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript (ES6)
+
+### Backend
+
+* Node.js
+* Express.js
+
+### Database
+
+* MongoDB Atlas
+* Mongoose
+
+### Authentication & Security
+
+* JSON Web Token (JWT)
+* bcrypt.js
+* Helmet
+* Express Validator
+
+### Real-Time Communication
+
+* Socket.IO
+
+### Deployment
+
+* Render
+
+---
+
+## 📁 Project Structure
+
+```text
+vibe-social/
+├── client/
+│   ├── css/
+│   ├── js/
+│   ├── index.html
+│   ├── login.html
+│   ├── register.html
+│   ├── feed.html
+│   ├── profile.html
+│   ├── search.html
+│   ├── settings.html
+│   ├── manifest.json
+│   └── sw.js
+│
+├── server/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── uploads/
+│   ├── utils/
+│   ├── app.js
+│   └── server.js
+│
+├── package.json
+├── package-lock.json
+├── README.md
+└── .gitignore
+```
+
+---
+
+## ⚙️ Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/shivapathak-code/vibe-social.git
+cd vibe-social
+```
+
+### 2. Install Dependencies
+
 ```bash
 npm install
 ```
 
-### 2. Environment Setup
-Configure your `.env` variables. Open the `.env` file in the root folder and add your MongoDB Atlas credentials:
+### 3. Configure Environment Variables
+
+Create a `.env` file in the project root.
+
 ```env
 PORT=5000
-MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/vibe_social?retryWrites=true&w=majority
-JWT_SECRET=your_jwt_secret_key_here
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
 JWT_EXPIRE=30d
 JWT_COOKIE_EXPIRE=30
 NODE_ENV=development
 CLIENT_URL=http://localhost:5000
 ```
 
-### 3. Database Seeding (Optional)
-Pre-populate the database with mock profiles, connections, posts, and likes:
+### 4. Seed the Database (Optional)
+
 ```bash
 npm run seed
 ```
 
-### 4. Running the App
-Start the development server (uses `nodemon` for auto-reloading):
+### 5. Run the Application
+
 ```bash
 npm run dev
 ```
 
-Open your browser and navigate to `http://localhost:5000`.
+Open:
+
+```
+http://localhost:5000
+```
 
 ---
 
-## Code Architecture
+## 📸 Screenshots
 
-```text
-social-media-app/
-├── client/
-│   ├── index.html           # Landing Splash Page
-│   ├── login.html           # Login Portal
-│   ├── register.html        # Register Page
-│   ├── feed.html            # Main User Feed & Notifications
-│   ├── profile.html         # User Profiles
-│   ├── settings.html        # Settings Portal
-│   ├── search.html          # Unified Search
-│   ├── css/
-│   │   ├── variables.css    # Typography, Gradients, Colors
-│   │   ├── base.css         # Resets & Basics
-│   │   ├── animations.css   # Keyframe libraries
-│   │   ├── components.css   # Modals, Buttons, Forms
-│   │   ├── layout.css       # CSS Grid & Mobile bar
-│   │   ├── pages.css        # Page Specific placements
-│   │   └── dark-mode.css    # Dark mode color overrides
-│   ├── js/                  # Page scripts & API logic wrappers
-│   └── sw.js                # PWA Service Worker caching
-├── server/
-│   ├── config/              # DB & Socket configurations
-│   ├── controllers/         # API business logic
-│   ├── middleware/          # JWT protect, upload filters, validators
-│   ├── models/              # User, Post, Comment, Like schemas
-│   ├── routes/              # Express Router mappings
-│   ├── utils/               # Image compression, Custom error response
-│   └── app.js               # Express application initialization
-└── server.js                # Server entry point
+Add screenshots inside a `screenshots` folder.
+
 ```
+screenshots/
+├── login.png
+├── register.png
+├── feed.png
+├── profile.png
+└── search.png
+```
+
+Example:
+
+```markdown
+![Feed](screenshots/feed.png)
+```
+
+---
+
+## 🔒 Security Features
+
+* Password Hashing with bcrypt
+* JWT Authentication
+* Protected Routes
+* Input Validation
+* Secure HTTP Cookies
+* Helmet Security Middleware
+
+---
+
+## 🚀 Future Improvements
+
+* Email Verification
+* Password Reset via Email
+* Cloudinary Image Storage
+* Direct Messaging
+* Story Feature
+* Push Notifications
+* Infinite Scrolling Feed
+* User Blocking & Reporting
+
+---
+
+## 👨‍💻 Author
+
+**Shiva Pathak**
+
+GitHub: https://github.com/shivapathak-code
+
+---
+
+## ⭐ Support
+
+If you found this project helpful, consider giving it a **⭐ Star** on GitHub.
