@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feed — Vibe Social</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <link rel="stylesheet" href="/css/dark-mode.css">
+</head>
+<body>
+  <div class="page-loader" id="page-loader">
+    <div class="page-loader-logo">Vibe</div>
+  </div>
+
+  <div class="app-shell">
+    <!-- Header -->
+    <header class="app-header">
+      <a href="/feed" class="header-logo">Vibe</a>
+      <div class="header-actions">
+        <button class="btn btn-icon" id="theme-toggle" aria-label="Toggle theme">
+          <span class="theme-icon">🌙</span>
+        </button>
+        <button class="btn btn-icon" id="header-notifications-btn" aria-label="Notifications" style="position: relative;">
+          <span>🔔</span>
+          <span class="badge badge-dot hidden" id="unread-notification-dot"></span>
+        </button>
+        <a href="/profile" class="avatar avatar-sm" id="header-user-avatar">U</a>
+      </div>
+    </header>
+
+    <!-- Left Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-nav">
+        <a href="/feed" class="nav-link active">
+          <span class="nav-icon">🏠</span>
+          <span>Home</span>
+        </a>
+        <a href="/search" class="nav-link">
+          <span class="nav-icon">🔍</span>
+          <span>Explore</span>
+        </a>
+        <a href="/feed?tab=notifications" class="nav-link" id="sidebar-notifications-link" style="position: relative;">
+          <span class="nav-icon">🔔</span>
+          <span>Notifications</span>
+          <span class="badge hidden" id="unread-notification-badge" style="margin-left: auto;">0</span>
+        </a>
+        <a href="/settings" class="nav-link">
+          <span class="nav-icon">⚙️</span>
+          <span>Settings</span>
+        </a>
+        <a href="/profile" class="nav-link" id="sidebar-profile-link">
+          <span class="nav-icon">👤</span>
+          <span>Profile</span>
+        </a>
+        <button class="btn btn-primary btn-block" style="margin-top: var(--space-4);" onclick="openCreatePostModal()">
+          <span>Create Post</span>
+        </button>
+      </div>
+
+      <div class="sidebar-footer" id="sidebar-profile-footer">
+        <!-- Logged in user short profile card -->
+      </div>
+    </aside>
+
+    <!-- Main Section -->
+    <main class="app-main animate-fade-in">
+      <!-- Composer -->
+      <div class="post-composer">
+        <form id="feed-composer-form">
+          <div class="composer-top">
+            <div class="avatar avatar-md" id="composer-user-avatar">U</div>
+            <textarea class="composer-input" id="composer-textarea" placeholder="What's your vibe today?..." maxlength="2200"></textarea>
+          </div>
+          
+          <div class="composer-media-preview hidden" id="composer-media-preview-container">
+            <!-- Upload previews go here -->
+          </div>
+
+          <div class="composer-bottom">
+            <div style="display: flex; gap: var(--space-2);">
+              <label class="btn btn-icon" style="cursor: pointer;" data-tooltip="Upload Images">
+                <input type="file" id="composer-image-input" accept="image/*" multiple style="display: none;">
+                <span>🖼️</span>
+              </label>
+              <label class="btn btn-icon" style="cursor: pointer;" data-tooltip="Upload Video">
+                <input type="file" id="composer-video-input" accept="video/*" style="display: none;">
+                <span>🎥</span>
+              </label>
+              <button type="button" class="btn btn-icon" id="composer-emoji-btn" data-tooltip="Add Emoji">
+                <span>😀</span>
+              </button>
+            </div>
+            <div style="display: flex; gap: var(--space-2); align-items: center;">
+              <label style="display: flex; align-items: center; gap: var(--space-2); cursor: pointer; font-size: var(--text-xs); color: var(--text-secondary);">
+                <input type="checkbox" id="composer-draft-check"> Save Draft
+              </label>
+              <button type="submit" class="btn btn-primary btn-sm" id="composer-submit-btn">Post</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Feed Tabs -->
+      <div class="tabs" style="margin-bottom: var(--space-6);">
+        <button class="tab active" data-feed="home">Following</button>
+        <button class="tab" data-feed="trending">Trending</button>
+        <button class="tab" data-feed="latest">Latest</button>
+      </div>
+
+      <!-- Feed Posts Container -->
+      <div id="posts-container" class="stagger-children">
+        <!-- Posts or Skeleton loaders rendered here -->
+      </div>
+
+      <!-- Scroll trigger for infinite scroll -->
+      <div id="infinite-scroll-trigger" style="height: 20px; margin-top: var(--space-6);"></div>
+    </main>
+
+    <!-- Right Sidebar -->
+    <aside class="app-aside">
+      <!-- Search -->
+      <div style="position: relative;">
+        <input type="text" class="form-input" id="aside-search" placeholder="Search Vibe..." style="padding-left: var(--space-10);">
+        <span style="position: absolute; left: 14px; top: 14px; opacity: 0.5;">🔍</span>
+      </div>
+
+      <!-- Suggested Users -->
+      <div class="card">
+        <div class="card-body" style="padding: var(--space-4);">
+          <h4 style="font-size: var(--text-sm); margin-bottom: var(--space-3);">Who to follow</h4>
+          <div id="suggested-users-container" style="display: flex; flex-direction: column; gap: var(--space-2);">
+            <!-- Suggested users injection -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Trending Hashtags -->
+      <div class="card">
+        <div class="card-body" style="padding: var(--space-4);">
+          <h4 style="font-size: var(--text-sm); margin-bottom: var(--space-3);">Trending Vibes</h4>
+          <div id="trending-hashtags-container" style="display: flex; flex-direction: column; gap: var(--space-3);">
+            <!-- Trending tags injection -->
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile Navigation -->
+    <nav class="app-mobile-nav">
+      <a href="/feed" class="mobile-nav-link active">
+        <span>🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="/search" class="mobile-nav-link">
+        <span>🔍</span>
+        <span>Explore</span>
+      </a>
+      <a href="/feed?tab=notifications" class="mobile-nav-link" id="mobile-notifications-link" style="position: relative;">
+        <span>🔔</span>
+        <span>Alerts</span>
+        <span class="badge hidden" id="mobile-notification-badge" style="position: absolute; top: 4px; right: 12px; min-width: 14px; height: 14px; font-size: 8px;">0</span>
+      </a>
+      <a href="/profile" class="mobile-nav-link" id="mobile-profile-link">
+        <span>👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Create Post Modal (FAB / Sidebar link) -->
+  <div class="modal-overlay" id="create-post-modal">
+    <div class="modal animate-modal">
+      <div class="modal-header">
+        <h3>Create Post</h3>
+        <button class="modal-close" onclick="closeCreatePostModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="modal-composer-form">
+          <textarea class="composer-input" id="modal-composer-textarea" placeholder="Compose your masterpiece..." style="min-height: 120px;" maxlength="2200"></textarea>
+          <div class="composer-media-preview hidden" id="modal-media-preview-container"></div>
+          <div class="composer-bottom" style="margin-top: var(--space-4);">
+            <div style="display: flex; gap: var(--space-2);">
+              <label class="btn btn-icon" style="cursor: pointer;">
+                <input type="file" id="modal-image-input" accept="image/*" creative multiple style="display: none;">
+                <span>🖼️</span>
+              </label>
+              <label class="btn btn-icon" style="cursor: pointer;">
+                <input type="file" id="modal-video-input" accept="video/*" style="display: none;">
+                <span>🎥</span>
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Post</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comments Sheet/Modal -->
+  <div class="modal-overlay" id="comments-modal">
+    <div class="modal animate-modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3>Comments</h3>
+        <button class="modal-close" onclick="closeCommentsModal()">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 0; display: flex; flex-direction: column; max-height: 70vh;">
+        <!-- Single post preview context -->
+        <div id="comment-post-context" style="padding: var(--space-4); border-bottom: 1px solid var(--border-light);"></div>
+        <!-- Comments scroll listing -->
+        <div id="comments-list-container" style="flex: 1; overflow-y: auto; padding: var(--space-4); min-height: 200px;">
+          <!-- Inject comment lists here -->
+        </div>
+        <!-- Write comment input bar -->
+        <form id="comment-input-bar" style="padding: var(--space-4); border-top: 1px solid var(--border-color); display: flex; gap: var(--space-2); align-items: center; background: var(--bg-secondary);">
+          <input type="text" id="comment-text-input" class="form-input" placeholder="Add a comment..." required style="flex: 1; min-height: 40px;">
+          <button type="submit" class="btn btn-primary btn-sm" style="min-height: 40px;">Post</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Action Button -->
+  <button class="fab" id="fab-create-post" aria-label="Create Post" onclick="openCreatePostModal()">
+    <span>✍️</span>
+  </button>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/socket.js"></script>
+  <script src="/js/feed.js"></script>
+  <script src="/js/post.js"></script>
+  <script src="/js/comments.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/router.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('page-loader');
+      loader.classList.add('fade-out');
+      setTimeout(() => loader.remove(), 400);
+    });
+
+    const createPostModal = document.getElementById('create-post-modal');
+    function openCreatePostModal() {
+      createPostModal.classList.add('active');
+    }
+    function closeCreatePostModal() {
+      createPostModal.classList.remove('active');
+    }
+
+    const commentsModal = document.getElementById('comments-modal');
+    function closeCommentsModal() {
+      commentsModal.classList.remove('active');
+      if (typeof window.activeCommentPostId !== 'undefined') {
+        // Leave post room for socket tracking
+        if (window.socket) {
+          window.socket.emit('post:leave', window.activeCommentPostId);
+        }
+      }
+    }
+  </script>
+</body>
+</html>

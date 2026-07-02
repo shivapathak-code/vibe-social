@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Vibe Social</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <link rel="stylesheet" href="/css/dark-mode.css">
+</head>
+<body class="auth-page">
+  <div class="page-loader" id="page-loader">
+    <div class="page-loader-logo">Vibe</div>
+  </div>
+
+  <button class="btn btn-icon theme-toggle-fixed" id="theme-toggle" aria-label="Toggle theme" style="position: fixed; top: var(--space-4); right: var(--space-4);">
+    <span class="theme-icon">🌙</span>
+  </button>
+
+  <div class="auth-container animate-scale-in">
+    <div class="auth-header">
+      <a href="/" class="auth-logo">Vibe</a>
+      <h2>Welcome Back</h2>
+      <p>Log in to catch up with the vibe</p>
+    </div>
+
+    <form id="login-form">
+      <div id="form-alert" class="form-error hidden" style="margin-bottom: var(--space-4); padding: var(--space-3); background: rgba(255, 118, 117, 0.1); border-radius: var(--radius-md);">
+        <!-- Error messages injection -->
+      </div>
+
+      <div class="form-group">
+        <label for="login" class="form-label">Username or Email</label>
+        <input type="text" id="login" name="login" class="form-input" placeholder="e.g. alexrivera or alex@vibe.com" required>
+      </div>
+
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2);">
+          <label for="password" class="form-label" style="margin-bottom: 0;">Password</label>
+          <a href="#" id="forgot-password-link" style="font-size: var(--text-xs); color: var(--primary);">Forgot Password?</a>
+        </div>
+        <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required>
+      </div>
+
+      <div class="form-group" style="display: flex; align-items: center; gap: var(--space-3);">
+        <label class="toggle">
+          <input type="checkbox" id="remember">
+          <span class="toggle-slider"></span>
+        </label>
+        <span style="font-size: var(--text-sm); color: var(--text-secondary); cursor: pointer;" onclick="document.getElementById('remember').click()">Remember Me</span>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit-btn">
+        <span>Sign In</span>
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      Don't have an account? <a href="/register" style="font-weight: 600; color: var(--primary);">Create Account</a>
+    </div>
+  </div>
+
+  <!-- Forgot Password Modal -->
+  <div class="modal-overlay" id="forgot-password-modal">
+    <div class="modal animate-modal">
+      <div class="modal-header">
+        <h3>Reset Password</h3>
+        <button class="modal-close" onclick="closeForgotPasswordModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: var(--space-4); font-size: var(--text-sm);">Enter your account email address and we'll log a recovery link to the console.</p>
+        <form id="forgot-form">
+          <div id="forgot-alert" class="form-error hidden" style="margin-bottom: var(--space-4); padding: var(--space-3); background: rgba(255, 118, 117, 0.1); border-radius: var(--radius-md);"></div>
+          <div class="form-group">
+            <label for="forgot-email" class="form-label">Email Address</label>
+            <input type="email" id="forgot-email" class="form-input" placeholder="alex@vibe.com" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="forgot-submit-btn">Send Recovery Link</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/js/theme.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('page-loader');
+      loader.classList.add('fade-out');
+      setTimeout(() => loader.remove(), 400);
+    });
+
+    const forgotModal = document.getElementById('forgot-password-modal');
+    document.getElementById('forgot-password-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      forgotModal.classList.add('active');
+    });
+
+    function closeForgotPasswordModal() {
+      forgotModal.classList.remove('active');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — Vibe Social</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <link rel="stylesheet" href="/css/dark-mode.css">
+</head>
+<body>
+  <div class="page-loader" id="page-loader">
+    <div class="page-loader-logo">Vibe</div>
+  </div>
+
+  <div class="app-shell">
+    <!-- Header -->
+    <header class="app-header">
+      <a href="/feed" class="header-logo">Vibe</a>
+      <div class="header-actions">
+        <button class="btn btn-icon" id="theme-toggle" aria-label="Toggle theme">
+          <span class="theme-icon">🌙</span>
+        </button>
+        <a href="/feed" class="btn btn-icon">🏠</a>
+      </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-nav">
+        <a href="/feed" class="nav-link">
+          <span class="nav-icon">🏠</span>
+          <span>Home</span>
+        </a>
+        <a href="/search" class="nav-link">
+          <span class="nav-icon">🔍</span>
+          <span>Explore</span>
+        </a>
+        <a href="/feed?tab=notifications" class="nav-link">
+          <span class="nav-icon">🔔</span>
+          <span>Notifications</span>
+        </a>
+        <a href="/settings" class="nav-link active">
+          <span class="nav-icon">⚙️</span>
+          <span>Settings</span>
+        </a>
+        <a href="/profile" class="nav-link" id="sidebar-profile-link">
+          <span class="nav-icon">👤</span>
+          <span>Profile</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main animate-fade-in" style="max-width: 600px;">
+      <div class="feed-header">
+        <h2>Settings</h2>
+      </div>
+
+      <div class="settings-menu stagger-children">
+        <!-- Appearance Settings -->
+        <div class="settings-card">
+          <div class="settings-section-title">Appearance</div>
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-title">Dark Theme</div>
+              <div class="settings-row-desc">Switch to dark mode color palette</div>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="settings-dark-mode-toggle">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Update profile info -->
+        <div class="settings-card">
+          <div class="settings-section-title">Edit Profile Information</div>
+          <form id="settings-profile-form">
+            <div class="form-group">
+              <label for="profile-fullName" class="form-label">Full Name</label>
+              <input type="text" id="profile-fullName" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label for="profile-bio" class="form-label">Bio</label>
+              <textarea id="profile-bio" class="form-input" style="min-height: 80px;" maxlength="160"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="profile-location" class="form-label">Location</label>
+              <input type="text" id="profile-location" class="form-input">
+            </div>
+            <div class="form-group">
+              <label for="profile-website" class="form-label">Website</label>
+              <input type="text" id="profile-website" class="form-input" placeholder="e.g. https://alexrivera.dev">
+            </div>
+            <button type="submit" class="btn btn-primary" id="save-info-btn">Save Information</button>
+          </form>
+        </div>
+
+        <!-- Change Password -->
+        <div class="settings-card">
+          <div class="settings-section-title">Change Password</div>
+          <form id="settings-password-form">
+            <div class="form-group">
+              <label for="currentPassword" class="form-label">Current Password</label>
+              <input type="password" id="currentPassword" class="form-input" required placeholder="••••••••">
+            </div>
+            <div class="form-group">
+              <label for="newPassword" class="form-label">New Password</label>
+              <input type="password" id="newPassword" class="form-input" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn btn-primary" id="change-pass-btn">Change Password</button>
+          </form>
+        </div>
+
+        <!-- Privacy & Security -->
+        <div class="settings-card">
+          <div class="settings-section-title">Account Security & Privacy</div>
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-title">Private Account</div>
+              <div class="settings-row-desc">Only approved followers can see your posts</div>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="settings-private-toggle">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Account Deletion -->
+        <div class="settings-card" style="border-color: var(--danger-light);">
+          <div class="settings-section-title" style="color: var(--danger);">Danger Zone</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+            <p style="font-size: var(--text-sm);">Deleting your account will permanently purge all your posts, comments, likes, follower details, and notifications. This action is not reversible.</p>
+            <div>
+              <button class="btn btn-danger" onclick="openDeleteAccountConfirm()">Delete Account</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Mobile Nav -->
+    <nav class="app-mobile-nav">
+      <a href="/feed" class="mobile-nav-link">
+        <span>🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="/search" class="mobile-nav-link">
+        <span>🔍</span>
+        <span>Explore</span>
+      </a>
+      <a href="/feed?tab=notifications" class="mobile-nav-link">
+        <span>🔔</span>
+        <span>Alerts</span>
+      </a>
+      <a href="/profile" class="mobile-nav-link">
+        <span>👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" id="delete-confirm-modal">
+    <div class="modal animate-modal">
+      <div class="modal-header">
+        <h3 style="color: var(--danger);">Confirm Account Deletion</h3>
+        <button class="modal-close" onclick="closeDeleteConfirm()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: var(--space-4); font-size: var(--text-sm);">Are you absolutely sure you want to delete your account? This will permanently delete your visual presence on Vibe.</p>
+        <div style="display: flex; gap: var(--space-3); justify-content: flex-end;">
+          <button class="btn btn-secondary" onclick="closeDeleteConfirm()">Cancel</button>
+          <button class="btn btn-danger" id="confirm-delete-btn">Yes, Purge My Account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="/js/theme.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/settings.js"></script>
+  <script src="/js/router.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('page-loader');
+      loader.classList.add('fade-out');
+      setTimeout(() => loader.remove(), 400);
+    });
+
+    const deleteModal = document.getElementById('delete-confirm-modal');
+    function openDeleteAccountConfirm() {
+      deleteModal.classList.add('active');
+    }
+    function closeDeleteConfirm() {
+      deleteModal.classList.remove('active');
+    }
+  </script>
+</body>
+</html>

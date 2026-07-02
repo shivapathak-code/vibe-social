@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore & Search — Vibe Social</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <link rel="stylesheet" href="/css/dark-mode.css">
+</head>
+<body>
+  <div class="page-loader" id="page-loader">
+    <div class="page-loader-logo">Vibe</div>
+  </div>
+
+  <div class="app-shell">
+    <!-- Header -->
+    <header class="app-header">
+      <a href="/feed" class="header-logo">Vibe</a>
+      <div class="header-actions">
+        <button class="btn btn-icon" id="theme-toggle" aria-label="Toggle theme">
+          <span class="theme-icon">🌙</span>
+        </button>
+        <a href="/feed" class="btn btn-icon">🏠</a>
+      </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-nav">
+        <a href="/feed" class="nav-link">
+          <span class="nav-icon">🏠</span>
+          <span>Home</span>
+        </a>
+        <a href="/search" class="nav-link active">
+          <span class="nav-icon">🔍</span>
+          <span>Explore</span>
+        </a>
+        <a href="/feed?tab=notifications" class="nav-link">
+          <span class="nav-icon">🔔</span>
+          <span>Notifications</span>
+        </a>
+        <a href="/settings" class="nav-link">
+          <span class="nav-icon">⚙️</span>
+          <span>Settings</span>
+        </a>
+        <a href="/profile" class="nav-link" id="sidebar-profile-link">
+          <span class="nav-icon">👤</span>
+          <span>Profile</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="app-main animate-fade-in">
+      <!-- Search Input Header -->
+      <div style="position: relative; margin-bottom: var(--space-6);">
+        <input type="text" class="form-input" id="search-input" placeholder="Search users, posts, or vibes (#)..." style="padding-left: var(--space-12); font-size: var(--text-md); min-height: 52px; border-radius: var(--radius-xl);">
+        <span style="position: absolute; left: 16px; top: 16px; font-size: 20px; opacity: 0.5;">🔍</span>
+      </div>
+
+      <!-- Search Tabs -->
+      <div class="tabs" id="search-tabs" style="margin-bottom: var(--space-6);">
+        <button class="tab active" data-search-type="all">Top Results</button>
+        <button class="tab" data-search-type="users">Users</button>
+        <button class="tab" data-search-type="posts">Posts</button>
+        <button class="tab" data-search-type="hashtags">Hashtags</button>
+      </div>
+
+      <!-- Results Container -->
+      <div id="search-results-container" class="stagger-children">
+        <!-- Rendered results (or trending widgets initially) -->
+      </div>
+    </main>
+
+    <!-- Right Sidebar -->
+    <aside class="app-aside">
+      <div class="card">
+        <div class="card-body">
+          <h4 style="font-size: var(--text-sm); margin-bottom: var(--space-3);">Trending vibes</h4>
+          <div id="trending-hashtags-container" style="display: flex; flex-direction: column; gap: var(--space-3);">
+            <!-- Inject trending list -->
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile Nav -->
+    <nav class="app-mobile-nav">
+      <a href="/feed" class="mobile-nav-link">
+        <span>🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="/search" class="mobile-nav-link active">
+        <span>🔍</span>
+        <span>Explore</span>
+      </a>
+      <a href="/feed?tab=notifications" class="mobile-nav-link">
+        <span>🔔</span>
+        <span>Alerts</span>
+      </a>
+      <a href="/profile" class="mobile-nav-link">
+        <span>👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Comments Sheet/Modal -->
+  <div class="modal-overlay" id="comments-modal">
+    <div class="modal animate-modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3>Comments</h3>
+        <button class="modal-close" onclick="closeCommentsModal()">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 0; display: flex; flex-direction: column; max-height: 70vh;">
+        <div id="comment-post-context" style="padding: var(--space-4); border-bottom: 1px solid var(--border-light);"></div>
+        <div id="comments-list-container" style="flex: 1; overflow-y: auto; padding: var(--space-4); min-height: 200px;"></div>
+        <form id="comment-input-bar" style="padding: var(--space-4); border-top: 1px solid var(--border-color); display: flex; gap: var(--space-2); align-items: center; background: var(--bg-secondary);">
+          <input type="text" id="comment-text-input" class="form-input" placeholder="Add a comment..." required style="flex: 1; min-height: 40px;">
+          <button type="submit" class="btn btn-primary btn-sm" style="min-height: 40px;">Post</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/socket.js"></script>
+  <script src="/js/post.js"></script>
+  <script src="/js/comments.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/router.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('page-loader');
+      loader.classList.add('fade-out');
+      setTimeout(() => loader.remove(), 400);
+    });
+
+    const commentsModal = document.getElementById('comments-modal');
+    function closeCommentsModal() {
+      commentsModal.classList.remove('active');
+      if (typeof window.activeCommentPostId !== 'undefined' && window.socket) {
+        window.socket.emit('post:leave', window.activeCommentPostId);
+      }
+    }
+  </script>
+</body>
+</html>

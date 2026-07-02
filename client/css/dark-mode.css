@@ -1,0 +1,43 @@
+/* ============================================
+   VIBE SOCIAL — DARK MODE THEME
+   ============================================ */
+
+[data-theme="dark"] {
+  --bg-primary: #0D1117;
+  --bg-secondary: #161B22;
+  --bg-tertiary: #1C2333;
+  --bg-elevated: #1C2333;
+  --bg-hover: #21262D;
+  --bg-active: #30363D;
+
+  --text-primary: #F0F6FC;
+  --text-secondary: #8B949E;
+  --text-tertiary: #6E7681;
+  --text-inverse: #0D1117;
+  --text-link: #A29BFE;
+
+  --border-color: #21262D;
+  --border-light: #1C2333;
+  --border-focus: #A29BFE;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 0 20px rgba(162, 155, 254, 0.15);
+
+  --glass-bg: rgba(22, 27, 34, 0.75);
+  --glass-border: rgba(48, 54, 61, 0.5);
+
+  --primary-glow: rgba(162, 155, 254, 0.2);
+}
+
+/* Smooth theme transition */
+body,
+body *:not(.no-transition) {
+  transition: background-color var(--transition-base),
+              color var(--transition-base),
+              border-color var(--transition-base),
+              box-shadow var(--transition-base);
+}
